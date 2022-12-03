@@ -34,3 +34,24 @@ data <- input %>%
 
 data %>% 
   summarise(sum(score))
+
+
+# Part 2 ------------------------------------------------------------------
+
+data_2 <- input %>% 
+  left_join(score %>% 
+              rename(your_score = score),
+            by = c('your_move' = 'move')) %>% 
+  mutate(my_score = case_when(my_move == 'X' ~ your_score - 1,
+                              my_move == 'Y' ~ your_score,
+                              TRUE  ~ your_score + 1),
+         my_score = case_when(my_score == 0 ~ 3,
+                              my_score == 4 ~ 1,
+                              TRUE ~ my_score),
+         result_score = case_when(my_move == 'X' ~ 0,
+                                  my_move == 'Y' ~ 3,
+                                  my_move == 'Z' ~ 6),
+         score = my_score + result_score)
+
+data_2 %>% 
+  summarise(sum(score))
