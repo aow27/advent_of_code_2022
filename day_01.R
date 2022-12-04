@@ -1,10 +1,17 @@
 library(tidyverse)
 
-data <- read_csv('data/input1.txt',
-               col_names = 'cals',
-               col_types = 'n',
-               na = character(),
-               skip_empty_rows = F) %>% 
+
+source('AoC functions.R')
+source('.Rprofile')
+
+download_advent(2022,
+                1,
+                readr::read_delim,
+                delim = ' ',
+                skip_empty_rows = FALSE,
+                col_names = c('cals'))
+
+data <- input %>% 
   mutate(id = cumsum(case_when(is.na(cals) ~ 1,
                                TRUE ~ 0))) %>% 
   filter(!is.na(cals))
