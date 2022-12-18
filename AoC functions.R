@@ -7,6 +7,7 @@
 
 download_advent <- function(year,
                             day,
+                            read_in = TRUE,
                             funct,
                             ...){
   
@@ -27,11 +28,14 @@ download_advent <- function(year,
     
     message(glue::glue('A file at "data/input{year}_{day}.txt" has now been created - enjoy!
             The new file in the folder has been read in as a tibble called input.'))
-
+    
     if(exists('cookie')) rm(cookie, envir = .GlobalEnv)
     
   }
   
-  input <<- funct(glue::glue('data/input{year}_{day}.txt'), ...)
+  input <- funct(glue::glue('data/input{year}_{day}.txt'), ...)
   
+  if(read_in) input <<- funct(glue::glue('data/input{year}_{day}.txt'), ...)
+  
+  input
 }
